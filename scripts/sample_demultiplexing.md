@@ -16,8 +16,6 @@ cd data_round2
 tar -xvf p30633_o35228_multiplexed_1_A01.dmxData.tar.gz
 ```
 
-
-
 # Sample QC
 
 Perform a basic set of sample QC on the reads to ensure that sequencing was successful. This only requires 10-15 minutes of processing time and can be performed interactively.

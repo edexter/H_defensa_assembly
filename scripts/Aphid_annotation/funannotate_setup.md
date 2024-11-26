@@ -1,6 +1,10 @@
-# Set up EC2 instance
+# FUNNANOTATE setup
 
-**THE IP ADDRESS WILL CHANGE EVERY TIME THE INSTANCE IS RESTARTED**. An EC instance with 16 CPUs, 64 GB of memory, and 300 GB of storage works well.
+FUNANNOTATE is an extremely difficult pipeline to run because it has many dependencies, some of which have unique and troublesome installation requirements. A docker container is available for FUNANNOTATE which eases this process somewhat, but most cluster environments will not allow the necessary permissions to run docker, so life is much easier if an EC2 instance is created to run the more difficult parts of the pipeline. Preliminary steps in the pipeline such as repeat masking can still be run on a cluster, which tends to be much cheaper.
+
+# Setting up the EC2 instance
+
+An EC instance with 16 CPUs, 64 GB of memory, and 300 GB of storage works well. **THE IP ADDRESS WILL CHANGE EVERY TIME THE INSTANCE IS RESTARTED**. 
 
 ````
 # Set permission level for key
@@ -40,7 +44,7 @@ docker ps
 
 # Install difficult external dependencies
 
-This program is difficult to install because of licensing issues. The instructions are described here: http://topaz.gatech.edu/GeneMark/license_download.cgi. Don't forget to separately download, extract, and store the license key in the home directory (not the installation directory)!
+Genemark is difficult to install because of licensing issues. The instructions are described here: http://topaz.gatech.edu/GeneMark/license_download.cgi. Don't forget to separately download, extract, and store the license key in the home directory (not the installation directory)!
 
 ````
 # Send genemark key to server from local
@@ -78,7 +82,7 @@ tar -xzf gmes_linux_64_4.tar.gz
 
 # Set up FUNANNOTATE docker environment
 
-````
+````bash
 # Get newest docker image
 docker pull nextgenusfs/funannotate
 
@@ -94,14 +98,16 @@ chmod +x funannotate-docker
 # Add the insecta busco database
 sudo ./funannotate-docker setup -b insecta
 
-# Import data from scicore (this is too much data)
+# Import data from scicore cluster (where earlier steps of annotation were performed for a better price)
 rsync -avz -e "ssh -i funannotate-server-key.pem" /scicore/home/ebertd/dexter0000/aphid/annotation/output/funannotate_train_full ec2-user@18.206.254.237:/home/ec2-user
 
 # Move the input genome to EC2
 rsync -avvz -e "ssh -i funannotate-server-key.pem" /scicore/home/ebertd/dexter0000/aphid/annotation/output/repeatmasker_output/aphid.filtered.cleaned.renamed.fa.masked ec2-user@18.206.254.237:/home/ec2-user
 ````
 
-````
+### Add the insecta BUSCO database to the docker instance
+
+````bash
 docker run -it --name funannotate_container nextgenusfs/funannotate /bin/bash
 funannotate setup -b insecta
 docker commit funannotate_container funannotate-with-insecta
@@ -167,7 +173,9 @@ conda install -c bioconda repeatmasker
 
 # Upload input files to server
 
-````
+This is a placeholder as a reminder that if you're not using a cluster at all and performing the entire annotation on the EC2 instance, then you need to upload some additional files to the EC2 instance.
+
+````bash
 # The genome assembly
 
 # The RNA seq files
