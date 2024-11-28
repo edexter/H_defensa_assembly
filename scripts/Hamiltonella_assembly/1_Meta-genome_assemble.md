@@ -1,6 +1,6 @@
 # Meta-genome assembly
 
-This script assembles a meta-genome from all of the reads in each sample (14 samples in total), and calculate a few summary statistics about each assembly. There are multiple species represented here, so this is just a rough first step that will require filtering of individuals contigs within each assembly based on BLOBTOOLS results. It
+This script assembles a meta-genome for each of the 14 samples and calculate a few summary statistics. There are multiple species represented in each sample, so the meta-genome assembly is just the first step in the pipeline to assemble the individual genomes. This script runs in less than a day.
 
 * Inputs
   * "fastq_index.txt": An index file of the raw sequencer file names
@@ -8,7 +8,7 @@ This script assembles a meta-genome from all of the reads in each sample (14 sam
 
 * Outputs (the most important ones)
   * "S01.p_ctg.fa": The primary genome assembly (for sample #1 in this case)
-  * "S01.p_ctg.fa.stats": Some basic summary stats for the genome assembly
+  * "S01.p_ctg.fa.stats": Some basic summary stats for the genome assembly (for sample #1 in this case)
 
 ````bash
 #!/bin/bash

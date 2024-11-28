@@ -1,6 +1,10 @@
-# Backmap reads to the assembled genomes
+# Meta-genome filtering with BLOBTOOLS 2
 
-Blobtools needs read coverage for each genome assembly, so we align the raw reads from each sample against each metagenome assembly. This runs in less than 10 minutes.
+Each of the 14 samples represents a meta-genome of multiple species, but our goal is to generate cleaned Hamiltonella assemblies. BLOBTOOLS 2 will now be used to identify and remove non-Hamiltonella contigs from each assembly based on coverage, BUSCO completeness, and BLAST against NCBI databases.
+
+# Step 1. Backmap reads to the assembled genomes
+
+BLOBTOOLS needs read coverage for each genome assembly, so we align the raw reads from each sample against each metagenome assembly. This runs in less than 10 minutes.
 
 ````bash
 #!/bin/bash
@@ -49,9 +53,11 @@ minimap2 -ax map-pb -t "$THREADS" "$REF" "$SAMP" | samtools view -bS -@ $THREADS
 samtools index -c bamsSelfmap/"$NAME".bam
 ````
 
-# Calculate BUSCO scores for each assembly
 
-Note that the BUSCO software is really inconsistent about relative file paths, hence the inconsistencies in the following script.
+
+# Step 2: Calculate BUSCO scores for each assembly
+
+BLOBTOOLS will also need BUSCO results for each of our assemblies to help us decide whether we are removing too many contigs. Note that the BUSCO software is really inconsistent about relative file paths, hence the hard coding of file paths in the following script. This runs very quickly.
 
 ````bash
 #!/bin/bash
@@ -96,9 +102,11 @@ busco -i "$REF" \
 -f --offline
 ````
 
-# BLAST assemblies against NCBI NT database
 
-This is requires about one day to run and should be submitted as a batch script.
+
+# Step 3: BLAST assemblies against NCBI NT database
+
+This requires about one day to run and should be submitted as a batch script.
 
 ````
 #!/bin/bash
@@ -149,7 +157,9 @@ blastn -db nt/nt \
 
 ````
 
-# BLAST assemblies against Uniprot database
+
+
+# Step 4. BLAST assemblies against Uniprot database
 
 This is requires about one day to run and should be submitted as a batch script.
 
@@ -204,7 +214,7 @@ diamond blastx \
 
 
 
-# Create and populate the blob directory
+# Step 5. Create and populate the blob directory
 
 The minimum requirement to create a new BlobDir is an assembly FASTA file. This command creates a new directory in the location specified by the last argument (in this case “AssemblyName”) that contains a set of files containing values for GC-content (gc.json), length (length.json), number of Ns (ncount.json) and sequence names (identifiers.json) for each sequence in the assembly. A final file (meta.json) contains metadata for the dataset describing the datatypes of the available fields and the ranges of values for each of these fields. We can also add other types of data at the same time. This only requires about 1 minute per sample and can be performed interactively.
 
@@ -233,28 +243,31 @@ done < scripts/sampleID.txt
 
 
 
-# Interactively filter the assembly
+# Step 6. Interactively filter the assembly
 
-Open viewer
+Navigate to the folder where the blob directories are stored and launch the viewer
 
-````
+````bash
 blobtools view --remote .
-
 ````
 
-Open local viewer in another terminal
+Open viewer in a new terminal on your local machine
 
 ````
 ssh -L 8001:127.0.0.1:8001 -L 8000:127.0.0.1:8000 dexter0000@login.scicore.unibas.ch
 ````
 
-navigate to page in a web browser and use the interactive filtering tool. Filter as needed and save the filter parameters using the lists Menu
+Navigate to page in a web browser and use the interactive filtering tool. Filter as needed and save the filter parameters using the lists Menu.
 
 ````
 http://localhost:8001/view/all
 ````
 
-# Create filtered assembly
+
+
+# Step 7. Create filtered assembly
+
+Upload the JSON files that were created from interactive filtering in BLOBTOOLS and pass them to the filter module.
 
 ````
 # Request resources for interactive node

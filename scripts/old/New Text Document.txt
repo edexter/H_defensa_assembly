@@ -1,0 +1,9 @@
+#S07 requires separate parameters to complete the FLYE assembler
+flye --pacbio-hifi reads_filtered/S07.fq --out-dir FLYE2/S07 --threads 16 --min-overlap 10000 --meta
+
+flye --pacbio-hifi reads_filtered/S07.fq --out-dir FLYE2/temp --threads 16 --min-overlap 5000 --meta
+# Notes on 7
+4 appears to be part of - APSE CAN BE DELETED
+3 appears to be part of - APSE CAN BE DELETED
+6 (piece of APSE) is entirely contained inside 5 and mostly inside 4 - CAN BE DELETED
+1 (Piece of APSE) is contained inside 5 and and mostly inside 3

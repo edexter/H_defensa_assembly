@@ -1,4 +1,6 @@
-The second round of genome assembly should be double checked for contaminants or other issues using BLOBTOOLS. 
+# Hamiltonella-genome filtering with BLOBTOOLS 2
+
+Each of the 14 samples represents a genome which should be primarily Hamiltonella, because we pre-filtered out any reads which previously mapped to non-Hamiltonella contigs. BLOBTOOLS 2 will now be used to identify and remove any remaining non-Hamiltonella contigs from each assembly based on coverage, BUSCO completeness, and BLAST against NCBI databases.
 
 # Backmap reads
 
@@ -104,7 +106,7 @@ busco -i "$REF" \
 
 # BLAST
 
-Perform a BLAST search against the NCBI nt database. This runs in a few hours.
+Perform a BLAST search against the NCBI NT database. This runs in a few hours.
 
 ````
 #!/bin/bash
@@ -156,7 +158,7 @@ blastn -db nt/nt \
 
 # Run blobtools
 
-Aggregate all of the necessary files to create a new BLOBTOOLS object for each sample. Interactively inspect for any potential assembly issues.
+Aggregate all of the necessary files to create a new BLOBTOOLS object for each sample. Interactively inspect for any potential assembly issues and filter the genomes as before.
 
 ````
 # Activate environment

@@ -1,3 +1,9 @@
+# Curated assembly summary statistics
+
+Now that the second round of genome assembly is completed (first with HIFASM and then with FLYE) and the genomes have been filtered a second time using BLOBTOOLS, some basic summary statistics can be calculated on the curated genome assemblies
+
+
+
 ### Calculate ASM assembly stats 
 
 ````
@@ -16,6 +22,8 @@ while IFS= read -r SAMP; do
 
 done < scripts/sampleID.txt
 ````
+
+
 
 ### Aggregate ASM assembly stats
 
@@ -48,7 +56,9 @@ rm temp_results.txt
 echo "File processing complete. Output saved to $OUTPUT_FILE"
 ````
 
-# BUSCO
+
+
+## BUSCO
 
 Calculate the BUSCO scores. Only takes a minute to run.
 
@@ -76,7 +86,9 @@ while read -r SAMP; do
 done < /scicore/home/ebertd/dexter0000/aphid/scripts/sampleID.txt
 ````
 
-# Aggregate BUSCO results
+
+
+## Aggregate BUSCO results
 
 Aggregate the BUSCO results together. This script needs to be saved and launched.
 
@@ -118,6 +130,8 @@ done
 
 echo "Results saved to $output_file"
 ````
+
+
 
 This is how the BUSCO aggregate script is launched.
 
