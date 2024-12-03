@@ -24,7 +24,11 @@ Navigate to page in a web browser and use the interactive filtering tool. Filter
 http://localhost:8001/view/all
 ````
 
+
+
 # Step 2: Create filtered assemblies
+
+This only takes a moment and can be performed interactively
 
 ````
 # Request resources for interactive node
@@ -50,6 +54,8 @@ blobtools filter \
      --output blobtools/filtered/aphid \
      viewer/merged
 ````
+
+
 
 # Step 3: Append species names to FASTA headers
 

@@ -2,9 +2,17 @@
 
 The merged sample meta-assembly will be used to create filtered genome assemblies for the Bucherna symbiont and the aphid host with BLOBTOOLS 2. This requires a number of preliminary steps to populate the BLOBTOOLS directory will all of the data that is needed for the filters to operate on
 
+
+
 # Step 1: Backmap reads to the meta-genome assembly
 
 Blobtools heavily relies upon a read coverage filter, so we align the raw reads from each sample against the metagenome assembly. This runs in less than 10 minutes.
+
+* Inputs
+  * Raw HIFI sequence read fastq files (gz compressed is fine)
+  * The meta-genome assembly: "merged.p_ctg.fa"
+* Outputs
+  * Bam file and index with the base name "backmap.bam"
 
 ````bash
 #!/bin/bash
@@ -52,9 +60,17 @@ data_round2/fastx/m64141e_240627_145720.hifi_reads.bc2190--bc2190.hifi_reads.fas
 samtools index -c assembly_merged/backmap.bam
 ````
 
+
+
 # Step 2: Calculate BUSCO scores
 
 Blobtools also needs BUSCO scores, but this needs to be performed for one species at a time, since the reference databases are different. This is fast and can be performed interactively.
+
+* Inputs
+  * BUSCO databases for hemiptera (aphid) and enterobacterales (Buchnera)
+  * The meta-genome assembly: "merged.p_ctg.fa"
+* Outputs
+  * Busco results directories
 
 ````bash
 # Load required module
@@ -80,9 +96,16 @@ busco -i merged.p_ctg.fa \
 -f --offline
 ````
 
+
+
 # Step 3: Perform BLAST
 
 Blobtools blasts all of the contigs in the assembly against the NCBI database to predict their taxonomic rank. This may run for up to a week. This needs to be performed against a local copy of the database, otherwise it will take even longer.
+
+* Inputs
+  * The meta-genome assembly: "merged.p_ctg.fa"
+* Outputs
+  * BLAST results: "merged.ncbi.blastn.out"
 
 ````bash
 #!/bin/bash
@@ -127,6 +150,8 @@ blastn -db nt/nt \
        -num_threads 16 \
        -out "$NAME"/"$NAME".ncbi.blastn.out
 ````
+
+
 
 # Step 4: Populate the BLOBTOOLS directory
 

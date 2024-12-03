@@ -1,4 +1,4 @@
-# Set up environment and install blobtools
+# Set up conda environment and install blobtools
 
 Create and activate the conda environment
 
@@ -72,16 +72,8 @@ cd ..;
 
 # Add BUSCO databases
 
-````
+````bash
 mkdir -p busco
-
-# Most general aphid database
-wget -q -O eukaryota_odb10.gz "https://busco-data.ezlab.org/v4/data/lineages/eukaryota_odb10.2020-09-10.tar.gz" \
-        && tar xf eukaryota_odb10.gz -C busco
-
-# Insecta database
-wget -q -O insecta_odb10.gz "https://busco-data.ezlab.org/v4/data/lineages/insecta_odb10.2020-09-10.tar.gz" \
-        && tar xf insecta_odb10.gz -C busco
 
 # Hemiptera database
 wget -q -O hemiptera_odb10.gz "https://busco-data.ezlab.org/v4/data/lineages/hemiptera_odb10.2020-08-05.tar.gz" \
@@ -91,9 +83,6 @@ wget -q -O hemiptera_odb10.gz "https://busco-data.ezlab.org/v4/data/lineages/hem
 wget -q -O enterobacterales_odb10.gz "https://busco-data.ezlab.org/v4/data/lineages/enterobacterales_odb10.2020-03-06.tar.gz" \
         && tar xf enterobacterales_odb10.gz -C busco
 
-# More general Hamiltonela and Buchneria database
-wget -q -O gammaproteobacteria_odb10.gz "https://busco-data.ezlab.org/v4/data/lineages/gammaproteobacteria_odb10.2020-03-06.tar.gz" \
-        && tar xf gammaproteobacteria_odb10.gz -C busco
 ````
 
 

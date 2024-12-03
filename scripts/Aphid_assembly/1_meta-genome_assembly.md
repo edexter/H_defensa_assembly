@@ -1,6 +1,16 @@
 # Meta-genome assembly
 
-Because all 14 samples shared a single genotype of the Aphis fabae host, we can merge all of the samples together to increase our coverage off the host genome and produce a better assembly. This assembly will contain contigs from multiple species, so it will need to be carefully filtered to remove non-aphid contigs using BLOBTOOLS later in the pipeline. This meta-assembly will also be the starting point for the Buchnera genome assembly, as a single genotype was also present in all 14 samples, and so we can apply the same process.
+Because all 14 samples shared a single genotype of the Aphis fabae host, we can merge all of the samples together to increase coverage. This meta-genome assembly will contain contigs from multiple species, so it will need to be filtered to remove non-aphid contigs using BLOBTOOLS later in the pipeline. This meta-assembly will also be the starting point for the Buchnera genome assembly, as a single genotype was also present in all samples, and so we can apply the same process.
+
+* Inputs
+  * Raw HIFI sequence read fastq files (gz compressed is fine)
+* Outputs
+  * Directory of assembly files: The most important file is "merged.p_ctg.fa"
+  * Assembly statistics: merged.p_ctg.fa.stats
+* Dependencies
+  * HIFIASM: Assembles genome
+  * script "gfa2fa": Converts HIFIASM output to fasta format
+  * script "asmstats": Calculates genome summary statistics
 
 ````bash
 #!/bin/bash
